@@ -64,9 +64,56 @@ public class Timer {
      * @return the average milliseconds per repetition.
      */
     public <T, U> double repeat(int n, boolean warmup, Supplier<T> supplier, Function<T, U> function, UnaryOperator<T> preFunction, Consumer<U> postFunction) {
-        // TO BE IMPLEMENTED : note that the timer is running when this method is called and should still be running when it returns.
-         return 0;
-        // END SOLUTION
+        pause();
+
+        //Warmup Phase (if warmup is true)
+        if (warmup) {
+            int warmupCount = n; // The number of warmup runs, same as the total count for consistency
+            T preFxn = supplier.get();
+
+            while (warmupCount > 0) {
+                // Apply pre-processing if any
+                if (preFunction != null) {
+                    preFxn = preFunction.apply(supplier.get());
+                }
+
+                U u = function.apply(preFxn);
+
+                if (postFunction != null) {
+                    postFunction.accept(u);
+                }
+
+                warmupCount--;
+            }
+
+            return 0;
+        }
+
+        // Actual timed executions
+        T preFxn = supplier.get();
+
+        while (n != 0) {
+
+            // Apply pre-processing if any
+            if (preFunction != null) {
+                preFxn = preFunction.apply(supplier.get());
+            }
+
+            resume(); // Resume timing before executing the main function
+
+            U u = function.apply(preFxn);
+
+            pauseAndLap();
+
+            if (postFunction != null) {
+                postFunction.accept(u);
+            }
+
+            n--;
+        }
+        final double result = meanLapTime();
+        resume();
+        return result;
     }
 
     /**
@@ -239,9 +286,7 @@ public class Timer {
      * @return the number of ticks for the system clock. Currently defined as nano time.
      */
     private static long getClock() {
-        // TO BE IMPLEMENTED 
-         return 0;
-        // END SOLUTION
+        return System.nanoTime();
     }
 
     /**
@@ -252,9 +297,7 @@ public class Timer {
      * @return the corresponding number of milliseconds.
      */
     private static double toMillisecs(long ticks) {
-        // TO BE IMPLEMENTED 
-         return 0;
-        // END SOLUTION
+        return ticks/1000000.0;
     }
 
     final static LazyLogger logger = new LazyLogger(Timer.class);
