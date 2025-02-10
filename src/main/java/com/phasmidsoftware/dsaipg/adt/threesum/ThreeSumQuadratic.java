@@ -20,6 +20,7 @@ public class ThreeSumQuadratic implements ThreeSum {
 
     private final int[] a;
     private final int length;
+
     /**
      * Construct a ThreeSumQuadratic on a.
      *

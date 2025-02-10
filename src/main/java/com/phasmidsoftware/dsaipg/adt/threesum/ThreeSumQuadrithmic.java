@@ -22,6 +22,7 @@ class ThreeSumQuadrithmic implements ThreeSum {
 
     private final int[] a;
     private final int length;
+
     /**
      * Construct a ThreeSumQuadrithmic on a.
      *
