@@ -50,7 +50,7 @@ public class SortBenchmark {
      */
     public static void main(String[] args) throws IOException {
         Config config = Config.load(SortBenchmark.class);
-        logger.info("!!!!!!!!!!!!!!!!!!!! SortBenchmark Start !!!!!!!!!!!!!!!!!!!!\n");
+        logger.info("!!!!!!!!!!!!!!!!!!!! SortBenchmark Start !!!!!!!!!!!!!!!!!!!!");
         logger.info("SortBenchmark.main: version " + config.get("sortbenchmark", "version") + " with word counts: " + Arrays.toString(args));
         if (args.length == 0) logger.warn("No word counts specified on the command line");
         new SortBenchmark(config).doMain(args);
@@ -63,7 +63,6 @@ public class SortBenchmark {
      */
     void doMain(String[] args) {
         sortStrings(getWordCounts(args));
-        sortIntegers(getWordCounts(args));
     }
 
     /**
@@ -371,7 +370,7 @@ public class SortBenchmark {
      *                   of word datasets to be processed and benchmarked.
      */
     private void sortStrings(Stream<Long> wordCounts) {
-        logger.info("Beginning String sorts");
+        logger.info("Beginning String sorts:");
 
         // NOTE: common words benchmark
 //        benchmarkStringSorters(getWords("3000-common-words.txt", SortBenchmark::lineAsList), config.getInt("benchmarkstringsorters", "words", 1000), config.getInt("benchmarkstringsorters", "runs", 1000));
@@ -394,7 +393,7 @@ public class SortBenchmark {
     private void doLeipzigBenchmarkEnglish(long N) {
         if (N > Integer.MAX_VALUE) throw new SortException("number of elements is too large");
         int x = (int) N;
-        logger.info("############################### " + x + " words ###############################");
+        logger.info("\n############################### " + x + " words ###############################");
 //        String resource = "eng-uk_web_2002_" + (x < 50000 ? "10K" : x < 200000 ? "100K" : "1M") + "-sentences.txt";
         String resource = "eng-uk_web_2002_" + (x < 50000 ? "10K" : "100K") + "-sentences.txt";
         try {
